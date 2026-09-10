@@ -37,4 +37,41 @@ switch (currentState) {
         currentState = State.WAITING_ENERGY_PRICE;
         break;
     // ...
+
+
+
+🧠 Arquitetura e Engenharia do Chatbot
+O chatbot foi construído de forma nativa dentro do ecossistema Android, utilizando uma abordagem reativa baseada em eventos para emular o comportamento de scripts de inteligência baseados em regras do Python.
+1. Lógica de Controle e Gerenciamento de Contexto
+•
+State Pattern / Finite State Machine (FSM): Implementação de uma Máquina de Estados Finita através de um tipo enumerado (enum State). Isso resolve o problema de perda de contexto em chatbots baseados em regras simples, permitindo que a aplicação transacione entre estados como WAITING_GAS_PRICE, WAITING_ENERGY_PRICE e IDLE, retendo variáveis na memória da instância (como numPanels e gasPrice) ao longo do diálogo.
+•
+Mecanismo de Rollback de Estado (Undo/Back): Desenvolvimento de uma pilha de estados simplificada dentro da função handleBackAction(). Ao capturar o token string "voltar", o sistema reverte o ponteiro do estado atual para o nó imediatamente anterior no grafo da conversa, limpando o buffer temporário e reemitindo o prompt correspondente.
+•
+Algoritmos de Parsing e Sanitização de Strings: Utilização de expressões regulares (Regex) como userInput.replaceAll("[^0-9]", "") para extração de caracteres numéricos puros de entradas textuais mistas, prevenindo exceções do tipo NumberFormatException caso o usuário digite "8 painéis" em vez de apenas "8".
+2. Componentes de Interface Gráfica (UI) e Performance
+•
+RecyclerView (Nativo): Utilizado para renderizar o histórico de mensagens de forma eficiente através da reciclagem de views em memória. Evita travamentos na interface (jank) mesmo em sessões longas de conversação.
+•
+View Type Discrimination (Polimorfismo em Adapters): O ChatAdapter gerencia listas heterogêneas mapeando constantes inteiras (TYPE_USER e TYPE_BOT) para inflar layouts XML diferentes dinamicamente através do método getItemViewType.
+•
+Mecanismo de Smooth Scrolling: Integração do método rvChat.scrollToPosition() acionado imediatamente após a mutação da lista de dados (notifyItemInserted), garantindo que o foco da janela de visualização acompanhe o fluxo de novas mensagens em tempo real.
+3. Concorrência e Simulação de Assincronismo
+•
+Handler e Loopers do Android: Uso de new Handler(Looper.getMainLooper()).postDelayed() para agendar tarefas na fila de execução da Thread Principal (UI Thread). Isso cria um atraso artificial programável (1000ms), emulando latência de processamento de rede/servidor para fornecer uma experiência de conversação natural (Human-like interaction delay).
+4. Recursos Visuais e Estilização Avançada
+•
+XML Vector Drawables & Tinting: Renderização de ícones de envio (ic_menu_send) e retorno utilizando vetores matemáticos, garantindo escalabilidade sem perda de resolução. Utilização de app:tint para aplicação dinâmica da paleta de cores.
+•
+Shape Drawables Personalizados: Uso de arquivos XML de desenho (<shape>) com propriedades de <corners> assimétricas (raios de canto diferentes) para gerar os balões de conversa no estilo de aplicativos de mensagens modernos (cantos arredondados com extremidade reta indicando o emissor).
+5. Regras de Negócio e Motores de Cálculo
+•
+Fórmula Computacional de Viabilidade Energética: Algoritmo matemático para cálculo de retorno financeiro baseado em matriz energética vehicular: \text{Custo Combustão} = ((1000)/(\text{Consumo Customizado})) × \text{Preço Gasolina} \text{Custo Elétrico} = ((1000)/(6.5)) × \text{Preço Energia (kWh)} \text{Economia Líquida} = \text{Custo Combustão} - \text{Custo Elétrico}
+•
+Mecanismo de Validação por Dicionário de Tokens: Varredura em arrays de constantes estáticas (COMBUSTION_VEHICLES e ELECTRIC_VEHICLES) usando correspondência parcial (input.contains(v)) para travar o avanço do chat caso o veículo digitado não pertença à frota homologada no projeto.
+
+
+
+
+
 }
