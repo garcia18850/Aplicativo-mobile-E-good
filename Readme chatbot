@@ -1,0 +1,40 @@
+🤖 Chatbot e-good Assistant
+O projeto conta com um assistente virtual inteligente integrado, desenvolvido para auxiliar o usuário na tomada de decisões sobre mobilidade elétrica e energia sustentável.
+🛠️ Tecnologias e Componentes Utilizados
+1. Arquitetura e Interface (UI/UX)
+•
+RecyclerView & Custom Adapters: Utilizados para renderizar a lista de mensagens de forma performática, permitindo uma conversa fluida com rolagem automática.
+•
+Custom Drawables (XML Shapes): Criação de estilos personalizados para os balões de conversa, diferenciando visualmente as mensagens do usuário (Teal) e do bot (Branco/Cinza).
+•
+Material Design Components: Uso de FloatingActionButton (FAB) para acesso rápido e TextInputEditText para uma entrada de texto moderna.
+2. Motor de Inteligência (Lógica de Regras)
+•
+Finite State Machine (FSM): O chatbot foi implementado utilizando uma Máquina de Estados Finita em Java. Isso permite que o bot "lembre" o contexto da conversa (ex: saber que a próxima mensagem do usuário será a voltagem após ter perguntado sobre os painéis solares).
+•
+Processamento de Linguagem Natural (Simulado): Lógica baseada em reconhecimento de palavras-chave e filtragem de strings para interpretar as intenções do usuário.
+•
+Validação Estrita: Implementação de coletores de dados e comparadores de arrays para garantir que o usuário interaja com veículos reais presentes no catálogo do sistema.
+3. Funcionalidades de Cálculo Econômico
+•
+Simulador Solar: Algoritmo que calcula a economia mensal em Reais (R$) com base no número de painéis, voltagem do sistema e preço do kWh informado.
+•
+Comparador de Combustão vs. Elétrico: Motor de cálculo que processa o preço da gasolina e da energia para entregar a economia real a cada 1.000km rodados.
+•
+Custom Vehicle Input: Função que permite ao usuário inserir dados de seu próprio veículo (consumo km/L) para uma comparação personalizada.
+4. Experiência do Usuário (UX Flow)
+•
+Handler & Looper: Utilizados para simular um tempo de "pensamento" do bot, tornando a interação mais humana.
+•
+Navegação Hierárquica: Comando "voltar" implementado para permitir que o usuário corrija informações sem precisar reiniciar todo o fluxo de conversa.
+Exemplo de Fluxo Lógico (Java)
+Java
+// Exemplo da Máquina de Estados no ChatActivity
+switch (currentState) {
+    case WAITING_GAS_PRICE:
+        gasPrice = Double.parseDouble(userInput);
+        response = "Qual o preço do kWh da energia?";
+        currentState = State.WAITING_ENERGY_PRICE;
+        break;
+    // ...
+}
