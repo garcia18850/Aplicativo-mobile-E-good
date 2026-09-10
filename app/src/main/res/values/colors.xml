@@ -1,0 +1,15 @@
+<resources>
+    <color name="teal_primary">#0ABFBC</color>
+    <color name="teal_dark">#008B7A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_dark">#1A1A1A</color>
+    <color name="text_gray">#8E8E8E</color>
+    <color name="bg_input">#F8F9FA</color>
+    <color name="stroke_input">#E0E0E0</color>
+    <color name="primary">#0ABFBC</color>
+    <color name="primary_dark">#008B7A</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="background_app">#F8F9FA</color>
+    <color name="teal_light">#E6F6F5</color>
+    <color name="stroke_card">#E0E0E0</color>
+</resources>
